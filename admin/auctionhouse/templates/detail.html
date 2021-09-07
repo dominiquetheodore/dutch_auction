@@ -1,0 +1,42 @@
+<h1>{{ auction.name }}</h1>
+<img src="{{ auction.imageUrl }}" alt="Hi!" style="height:300px;" />.
+<p>Status: {% if auction.active %} Active {% else %} Inactive {% endif %}</p>
+<p>Start Date: <span id="eventdate">{{ auction.startDate|date:"M d, Y H:m:s" }}</span></p>
+<p>Starting Price: {{ auction.startBid }}</p>
+<p>Auction starts in <div id="countdowntimer"></div></p>
+
+<h2>Bids</h2>
+<table>
+    <th>
+        <td>User</td>
+        <td>Amount (EUR)</td>
+        <td>Time</td>
+    </th>
+</table>
+
+<h2>Place bid</h2>
+<form>
+    <input type="number" />
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    const countdownTimer = document.getElementById('countdowntimer')
+    const dt = document.getElementById('eventdate')
+    const eventDate = Date.parse(dt.textContent)
+    console.log(eventDate)
+    const now = new Date().getTime()
+
+    setInterval(() => {
+        const now = new Date().getTime()
+        const diff = eventDate - now
+        const d = Math.floor(eventDate / (1000 * 60 * 60 * 24) - now/(1000 * 60 * 60 * 24))
+        const h = Math.floor(eventDate / (1000 * 60 * 60 ) - (now/(1000 * 60 * 60 * 24))%24)
+        const m = Math.floor(eventDate / (1000 * 60 ) - (now/(1000 * 60)))
+        const s = Math.floor(eventDate / (1000) - (now/(1000)) % 60)
+
+        console.log(diff)
+        countdownTimer.innerHTML = d + " days " + h + " hours " + m + " minutes" + s + " seconds"
+    }, 1000)
+</script>
+
